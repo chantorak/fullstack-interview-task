@@ -14,7 +14,8 @@ app.get("/investments", (req, res) => {
 
 app.get("/investments/:id", (req, res) => {
   const {id} = req.params
-  const investment = R.filter(R.propEq("id", id), investments)
+  const investment = R.filter(R.propEq(id, "id"), investments)
+  console.log(1111, investments)
   res.send(investment)
 })
 
