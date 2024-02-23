@@ -79,3 +79,34 @@ Financial Companies - localhost:8082
 
 Admin - localhost:8083
 - `/investments/:id` get an investment record by id
+
+## New routes
+We have provided a series of routes
+
+Admin - localhost:8083
+- `/investments/generateReport` produces a CSV report with values of all user investment holdings
+- `/investments/exportCSV` passes the CSV data to the investment's API's /export endpoint
+
+
+## How to run any additional scripts or tests you may have added?
+To run the tests in the admin project:
+
+```bash
+npm run test
+```
+
+## Relating to the task please add answers to the following questions
+### How might you make this service more secure?
+- Authentication: All requests need to be authenticated
+- Adding input validations
+- Private network: The APIs could be deployed within a private VPC
+
+### How would you make this solution scale to millions of records?
+- The holding values could had been pre-processed rather on fly when requested
+- Infrastructure choices
+
+### What else would you have liked to improve given more time?
+- Could have more tests in form of integration/unit tests, with a larger sample data
+- Adding validation and restrict the accepted header type for the endpoints
+- Improved error handling and logging
+- Could utilise docker, and use docker compose to bring up all the services
