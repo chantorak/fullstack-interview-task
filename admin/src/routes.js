@@ -1,28 +1,26 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const config = require("config")
-const request = require("request")
 const R = require("ramda")
 const app = express()
 const {json2csv} = require('json-2-csv');
 
 app.use(bodyParser.json({limit: "10mb"}))
 
-app.get("/investments/:id", (req, res) => {
-  const {id} = req.params
-  request.get(`${config.investmentsServiceUrl}/investments/${id}`, (e, r, investments) => {
-    if (e) {
-      console.error(e)
-      res.send(500)
-    } else {
-      res.send(investments)
-    }
-  })
-})
-
 async function httpGET(url) {
   return await (await fetch(url)).json();
 }
+
+app.get("/investments/:id", async (req, res) => {
+  try {
+      const {id} = req.params
+      const investment = await httpGET(`${config.investmentsServiceUrl}/investments/${id}`)
+      res.send(investment)
+  } catch (e) {
+    console.error(e)
+    res.send(500)
+  }
+})
 
 async function completeHolding(investment) {
   const { holdings } = investment
@@ -62,5 +60,28 @@ app.get("/generateReport", async (req, res) => {
     return res.sendStatus(500)
   }
 })
+
+
+app.post("/exportReport", async (req, res) => {
+  try {
+    const {body} = req;
+
+    const csv = body.csv;
+
+    await fetch(`${config.investmentsServiceUrl}/investments/export`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({csv}),
+      method: "POST",
+    });
+
+    return res.status(200).send()
+  } catch (e) {
+    console.error(e)
+    return res.sendStatus(500)
+  }
+})
+
 
 module.exports = app

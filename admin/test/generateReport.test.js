@@ -17,3 +17,16 @@ describe("/generateReport endpoint", () => {
       })
   })
 })
+
+describe("/exportReport endpoint", () => {
+  test("should post the report to investment api", async () => {
+    const expected = await fs.readFile(__dirname + "/expected.csv", "utf-8")
+
+    return superApp
+      .post("/exportReport")
+      .send(JSON.stringify({CSV: expected}))
+      .set('Accept', 'application/json')
+      .expect(200);
+  })
+})
+
