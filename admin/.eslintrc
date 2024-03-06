@@ -1,4 +1,7 @@
 {
   "extends": "@mft/eslint-config-momentumft",
-  "env": { "jest": true }
+  "env": { "jest": true },
+  "rules": {
+    "no-console": "off"
+  }
 }

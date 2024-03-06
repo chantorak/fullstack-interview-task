@@ -14,6 +14,7 @@ describe("/generateReport endpoint", () => {
       .expect(200)
       .then((response) => {
         expect(response.text).toContain(expected)
+        return null
       })
   })
 })
@@ -25,8 +26,8 @@ describe("/exportReport endpoint", () => {
     return superApp
       .post("/exportReport")
       .send(JSON.stringify({CSV: expected}))
-      .set('Accept', 'application/json')
-      .expect(200);
+      .set("Accept", "application/json")
+      .expect(200)
   })
 })
 
